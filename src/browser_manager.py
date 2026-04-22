@@ -152,13 +152,19 @@ class BrowserManager:
         
         try:
             self.logger.logger.info(f"⏳ Aguardando resultados ({wait_time}s)...")
-            
-            # Aguarda elemento aparecer
-            await self.page.wait_for_selector(result_selector, timeout=wait_time * 1000)
-            
+
+            # Aguarda elemento no DOM (attached), mesmo que ainda esteja hidden.
+            # O AngularJS injeta o <a class="link-to-edit"> antes de torná-lo visível,
+            # então state="visible" dá timeout mesmo o elemento existindo.
+            await self.page.wait_for_selector(
+                result_selector,
+                state="attached",
+                timeout=wait_time * 1000
+            )
+
             self.logger.logger.info(f"✓ Resultado encontrado!")
             return True
-        
+
         except Exception as e:
             self.logger.log_error_safe(f"Timeout aguardando resultados: {str(e)}")
             return False
@@ -180,9 +186,9 @@ class BrowserManager:
         try:
             self.logger.logger.info(f"🔗 Clicando no resultado...")
             
-            # Clica no primeiro link encontrado
-            await self.page.click(result_selector)
-            
+            # force=True permite clicar mesmo que o elemento esteja hidden/obscured
+            await self.page.click(result_selector, force=True)
+
             # Aguarda navegação
             await asyncio.sleep(2)
             
