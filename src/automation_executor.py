@@ -251,7 +251,7 @@ class AutomationExecutor:
                 if not await self.browser_manager.search_email(
                     email=email,
                     search_field_selector='input[placeholder="Pesquisar por nome"]',
-                    wait_time=10
+                    wait_time=15
                 ):
                     self.logger.log_step(step_num, email, "FALHA AO PREENCHER EMAIL")
                     self.stats["failed_emails"].append(email)
@@ -261,7 +261,7 @@ class AutomationExecutor:
                 # Aguarda e clica no resultado
                 if not await self.browser_manager.wait_for_search_results(
                     result_selector="a.link-to-edit",
-                    wait_time=10
+                    wait_time=15
                 ):
                     self.logger.log_step(step_num, email, "NENHUM RESULTADO ENCONTRADO")
                     self.stats["failed_emails"].append(email)

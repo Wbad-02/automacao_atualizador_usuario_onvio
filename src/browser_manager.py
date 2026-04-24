@@ -106,7 +106,7 @@ class BrowserManager:
             return ""
         return self.page.url
 
-    async def search_email(self, email: str, search_field_selector: str = "input[type='text']", wait_time: int = 10) -> bool:
+    async def search_email(self, email: str, search_field_selector: str = "input[type='text']", wait_time: int = 15) -> bool:
         """
         Pesquisa email no campo de busca.
         
@@ -132,10 +132,10 @@ class BrowserManager:
             return True
         
         except Exception as e:
-            self.logger.log_error_safe(f"Erro ao preencher email: {str(e)}")
+            self.logger.log_error_safe(f"Timeout ({wait_time}s) ao preencher email '{email}': {str(e)}")
             return False
     
-    async def wait_for_search_results(self, result_selector: str = "a.link-to-edit", wait_time: int = 10) -> bool:
+    async def wait_for_search_results(self, result_selector: str = "a.link-to-edit", wait_time: int = 15) -> bool:
         """
         Aguarda elemento de resultado aparecer.
         
@@ -166,7 +166,7 @@ class BrowserManager:
             return True
 
         except Exception as e:
-            self.logger.log_error_safe(f"Timeout aguardando resultados: {str(e)}")
+            self.logger.log_error_safe(f"Timeout ({wait_time}s) aguardando resultados '{result_selector}': {str(e)}")
             return False
     
     async def click_search_result(self, result_selector: str = "a.link-to-edit") -> bool:
