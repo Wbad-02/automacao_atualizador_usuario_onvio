@@ -13,17 +13,26 @@ cd /d "%~dp0"
 
 echo Escolha o modo de execucao:
 echo.
-echo   [1] Com navegador visivel
-echo   [2] Sem navegador (headless / mais rapido)
-echo   [3] Configurar credenciais
-echo   [4] Sair
+echo   [1] Interface Desktop  (recomendado)
+echo   [2] CLI - com navegador visivel
+echo   [3] CLI - headless (sem navegador)
+echo   [4] Configurar credenciais
+echo   [5] Sair
 echo.
-set /p opcao="Digite sua opcao (1/2/3/4): "
+set /p opcao="Digite sua opcao (1/2/3/4/5): "
 
-if "%opcao%"=="1" goto visivel
-if "%opcao%"=="2" goto headless
-if "%opcao%"=="3" goto credenciais
-if "%opcao%"=="4" goto fim
+if "%opcao%"=="1" goto desktop
+if "%opcao%"=="2" goto visivel
+if "%opcao%"=="3" goto headless
+if "%opcao%"=="4" goto credenciais
+if "%opcao%"=="5" goto fim
+
+:desktop
+echo.
+echo Iniciando interface desktop...
+echo.
+python -m src.desktop_app
+goto fim
 
 :visivel
 echo.

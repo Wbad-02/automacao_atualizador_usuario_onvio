@@ -104,9 +104,9 @@ Exemplos:
     
     parser.add_argument(
         "--emails-file",
-        type=str,
-        default="config/emails_list.txt",
-        help="Arquivo com lista de emails (padrão: config/emails_list.txt)"
+        nargs="+",
+        default=["config/emails_list.txt"],
+        help="Arquivo(s) com lista de emails — pode ser informado múltiplas vezes (padrão: config/emails_list.txt)"
     )
     
     parser.add_argument(
@@ -152,22 +152,22 @@ async def main():
     # ============ MODO: AUTOMAÇÃO NORMAL ============
     logger.info("\n🚀 MODO: Automação Normal\n")
     
-    # Valida arquivo de emails
-    emails_file = Path(args.emails_file)
-    if not emails_file.exists():
-        logger.error(f"Arquivo de emails nao encontrado: {emails_file}")
-        logger.info("Crie o arquivo config/emails_list.txt com os emails")
-        return 1
+    # Valida arquivos de emails
+    for emails_file in args.emails_file:
+        if not Path(emails_file).exists():
+            logger.error(f"Arquivo de emails nao encontrado: {emails_file}")
+            logger.info("Crie o arquivo com os emails (um por linha)")
+            return 1
 
     logger.info(f"Configuracao:")
-    logger.info(f"   Emails: {emails_file}")
+    logger.info(f"   Listas de emails: {', '.join(args.emails_file)}")
     logger.info(f"   Login: {args.login_url}")
     logger.info(f"   TABs: {args.tab_presses} x {args.tab_interval}s")
     logger.info(f"   Headless: {args.headless}\n")
 
     # Cria executor e executa
     executor = AutomationExecutor(
-        emails_file=str(emails_file),
+        emails_files=args.emails_file,
         login_url=args.login_url,
         headless=args.headless,
         verbose=args.verbose

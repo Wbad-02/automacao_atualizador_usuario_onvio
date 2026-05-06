@@ -1,0 +1,62 @@
+# Credenciais e secrets
+.env
+.env.local
+.env.*.local
+credentials.json
+
+# Logs
+logs/
+*.log
+*.jsonl
+
+# Screenshots de debugging
+screenshots/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual env
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+*.tmp
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Playwright
+.webdriver-manager/
